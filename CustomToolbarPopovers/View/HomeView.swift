@@ -10,13 +10,15 @@ import SwiftUI
 struct HomeView: View {
     
     // Upadatin Popover Views...
-    @State var graphicalDate: Bool = false
-    @State var showPicker: Bool = false
+    @State private var graphicalDate: Bool = false
+    // Pickerの表示有無を管理する状態変数
+    @State private var showPicker: Bool = false
+    // Popoverの表示有無を管理する状態変数
+    @State private var show: Bool = false
     
-    @State var show: Bool = false
     var body: some View {
         NavigationView{
-            
+            // 二つのToggleを並べる
             List{
                 Toggle(isOn: $showPicker){
                     Text("Show Picker")
@@ -32,6 +34,7 @@ struct HomeView: View {
                 ToolbarItem(placement: .navigationBarTrailing){
                     Button{
                         withAnimation{
+                            // Popoverの表示非表示を切り替える
                             show.toggle()
                         }
                     }label: {
@@ -40,11 +43,16 @@ struct HomeView: View {
                 }// ToolbarItem
             }// .toolbar
         }// NavigationView
+        // Popoverを表示
+        // Popoverを表示する位置を placement: で指定する。
+        // .leadingなら左、.trailingなら右に表示
         .toolBarPopover(show: $show, placement: .trailing){
-            
             // Showing dynamic usage...
+            // Toggleを使って、trueにした場合はボタンをタップした時に、Pickerを表示する
+            // Toggleを使って、falseにした場合はボタンをタップした時に、Pickerを非表示にする
             if showPicker{
-                Picker("", selection: .constant("")){
+                Picker("", selection: .constant("sss")){
+                    // Textと1から10までの数字を表示する
                     ForEach(1...10, id: \.self){index in
                         Text("Hello\(index)")
                             .tag(index)
@@ -52,15 +60,19 @@ struct HomeView: View {
                 }
                 .labelsHidden()
                 .pickerStyle(.wheel)
-                
             }
+            // showPickerがfalseの時
             else{
+                // graphicalDateがtrueの時はDatePickerを.datePickerStyle(.graphical)で表示する。
                 if graphicalDate{
                     // Popover View...
+                    // 引数の.constant(Date())で現在の日付と時刻を表示する
                     DatePicker("",selection: .constant(Date()))
                         .datePickerStyle(.graphical)
                         .labelsHidden()
-                }else{
+                }
+                // graphicalDateがfalseの時はDatePickerを.datePickerStyle(.compact)で表示する。
+                else{
                     // Popover View...
                     DatePicker("",selection: .constant(Date()))
                         .datePickerStyle(.compact)
