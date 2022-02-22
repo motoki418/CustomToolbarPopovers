@@ -13,6 +13,8 @@ struct HomeView: View {
     @State var graphicalDate: Bool = false
     @State var showPicker: Bool = false
     
+    @State var show: Bool = false
+    
     var body: some View {
         NavigationView{
             
@@ -27,7 +29,42 @@ struct HomeView: View {
                 
             }// List
             .navigationTitle("Popovers")
+            // ToolBar...
+            .toolbar{
+                
+                ToolbarItem(placement: .navigationBarLeading){
+                    
+                    Button{
+                        withAnimation{
+                            show.toggle()
+                        }
+                        
+                    }label: {
+                        Image(systemName: "slider.horizontal.below.square.fill.and.square")
+                    }// Button
+                }// ToolbarItem
+            }// .toolbar
         }// NavigationView
+        .toolBarPopover(show: $show, placement: .leading){
+            
+            // Showing dynamic usage...
+            if showPicker{
+                
+            }
+            else{
+                if graphicalDate{
+                    // Popover View...
+                    DatePicker("",selection: .constant(Date()))
+                        .datePickerStyle(.graphical)
+                        .labelsHidden()
+                }else{
+                    // Popover View...
+                    DatePicker("",selection: .constant(Date()))
+                        .datePickerStyle(.compact)
+                        .labelsHidden()
+                }
+            }
+        }// .toolBarPopover
     }
 }
 
