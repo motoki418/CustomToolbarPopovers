@@ -14,7 +14,6 @@ struct HomeView: View {
     @State var showPicker: Bool = false
     
     @State var show: Bool = false
-    
     var body: some View {
         NavigationView{
             
@@ -26,29 +25,33 @@ struct HomeView: View {
                 Toggle(isOn: $graphicalDate){
                     Text("Show Graphical Date Picker")
                 }
-                
             }// List
             .navigationTitle("Popovers")
             // ToolBar...
             .toolbar{
-                
-                ToolbarItem(placement: .navigationBarLeading){
-                    
+                ToolbarItem(placement: .navigationBarTrailing){
                     Button{
                         withAnimation{
                             show.toggle()
                         }
-                        
                     }label: {
                         Image(systemName: "slider.horizontal.below.square.fill.and.square")
                     }// Button
                 }// ToolbarItem
             }// .toolbar
         }// NavigationView
-        .toolBarPopover(show: $show, placement: .leading){
+        .toolBarPopover(show: $show, placement: .trailing){
             
             // Showing dynamic usage...
             if showPicker{
+                Picker("", selection: .constant("")){
+                    ForEach(1...10, id: \.self){index in
+                        Text("Hello\(index)")
+                            .tag(index)
+                    }
+                }
+                .labelsHidden()
+                .pickerStyle(.wheel)
                 
             }
             else{

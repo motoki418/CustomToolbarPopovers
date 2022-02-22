@@ -14,7 +14,6 @@ extension View{
         self
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(
-                
                 ZStack{
                     if show.wrappedValue{
                         content()
@@ -28,7 +27,6 @@ extension View{
                             .shadow(color: Color.primary.opacity(0.05), radius: 5, x: 5, y: 5)
                         
                             .shadow(color: Color.primary.opacity(0.05), radius: 5, x: -5, y: -5)
-
                         // ポップアップの左右に余白を空ける
                             .padding(.horizontal, 35)
                         // Moving from top...
@@ -46,12 +44,6 @@ extension View{
 enum Placement{
     case leading
     case trailing
-}
-
-struct PopoverView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
 }
 
 // Custom Arrow Shape...
@@ -84,5 +76,11 @@ struct PopOverArrowShape: Shape{
             path.addLine(to: CGPoint(x: placment == .leading ? 25 : rect.width - 25,  y: -15))
             path.addLine(to: CGPoint(x: placment == .leading ? 40 : rect.width - 40,  y: 0))
         }
+    }
+}
+
+struct PopoverView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
